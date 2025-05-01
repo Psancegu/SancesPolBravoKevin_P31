@@ -45,7 +45,7 @@ public class Reactor implements InComponent{
 
     @Override
     public float calculaOutput(float input) {
-        if(!active){
+        if(!active ){
             return temperatura;
         }else{
             return temperatura+(100-input)*10;
