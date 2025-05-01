@@ -1,19 +1,23 @@
 package prog2.model;
 
 public class Turbina implements InComponent{
+    boolean activa;
+    Turbina(){
+        activa = false;
+    }
     @Override
-    public void activa() throws CentralUBException {
-
+    public void activa()  {
+        activa = true;
     }
 
     @Override
     public void desactiva() {
-
+        activa = false;
     }
 
     @Override
     public boolean getActivat() {
-        return false;
+        return activa;
     }
 
     @Override
@@ -23,11 +27,15 @@ public class Turbina implements InComponent{
 
     @Override
     public float getCostOperatiu() {
-        return 0;
+        return 20.0F;
     }
 
     @Override
     public float calculaOutput(float input) {
-        return 0;
+        if((activa&& input<100.0F)||!activa){
+            return 0.0F;
+        }else{
+            return input*2;
+        }
     }
 }

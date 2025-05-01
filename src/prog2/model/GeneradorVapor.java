@@ -2,7 +2,7 @@ package prog2.model;
 
 public class GeneradorVapor implements InComponent {
     @Override
-    public void activa() throws CentralUBException {
+    public void activa() {
 
     }
 
