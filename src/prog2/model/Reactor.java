@@ -40,6 +40,9 @@ public class Reactor implements InComponent{
 
     @Override
     public float getCostOperatiu() {
+        if(!active){
+            return 0.0F;
+        }
         return 35.0F;
     }
 

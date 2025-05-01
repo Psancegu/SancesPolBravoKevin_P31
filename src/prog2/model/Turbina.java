@@ -27,6 +27,9 @@ public class Turbina implements InComponent{
 
     @Override
     public float getCostOperatiu() {
+        if(!activa){
+            return 0.0F;
+        }
         return 20.0F;
     }
 
