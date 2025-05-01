@@ -32,7 +32,7 @@ public class Turbina implements InComponent{
 
     @Override
     public float calculaOutput(float input) {
-        if((activa&& input<100.0F)||!activa){
+        if(!activa || input < 100.0F){
             return 0.0F;
         }else{
             return input*2;
