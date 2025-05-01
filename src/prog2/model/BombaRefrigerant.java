@@ -7,7 +7,7 @@ public class BombaRefrigerant implements InBombaRefrigerant {
     boolean activo;
     boolean foraServei;
     VariableUniforme varUniforme;
-    BombaRefrigerant(int identificador,VariableUniforme var) {
+    BombaRefrigerant(VariableUniforme var,int identificador) {
         varUniforme = var;
         id = identificador;
         activo = false;

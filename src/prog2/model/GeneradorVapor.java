@@ -2,6 +2,9 @@ package prog2.model;
 
 public class GeneradorVapor implements InComponent {
     boolean activa;
+    GeneradorVapor() {
+        activa = true;
+    }
     @Override
     public void activa() {
         activa = true;

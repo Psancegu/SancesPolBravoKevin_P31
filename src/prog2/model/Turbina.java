@@ -3,7 +3,7 @@ package prog2.model;
 public class Turbina implements InComponent{
     boolean activa;
     Turbina(){
-        activa = false;
+        activa = true;
     }
     @Override
     public void activa()  {
