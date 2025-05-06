@@ -1,17 +1,19 @@
 package prog2.model;
 
+import prog2.vista.CentralUBException;
+
 public class Turbina implements InComponent{
     boolean activa;
     Turbina(){
         activa = true;
     }
     @Override
-    public void activa()  {
+    public void activa()throws CentralUBException  {
         activa = true;
     }
 
     @Override
-    public void desactiva() {
+    public void desactiva()  {
         activa = false;
     }
 

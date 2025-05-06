@@ -84,7 +84,15 @@ public class Dades implements InDades {
     public final static float PENALITZACIO_EXCES_POTENCIA = 250;
 
     // Afegir atributs:
-
+    VariableUniforme variableUniforme;
+    int insercioBarres;
+    Reactor reactor;
+    SistemaRefrigeracio sistemaRefrigeracio;
+    GeneradorVapor generadorVapor;
+    Turbina turbina;
+    Bitacola bitacola;
+    int dia;
+    float guanysAcumulats;
     public Dades(){
         // Inicialitza Atributs
         this.variableUniforme = new VariableUniforme(VAR_UNIF_SEED);
