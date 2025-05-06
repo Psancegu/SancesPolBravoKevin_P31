@@ -1,19 +1,23 @@
 package prog2.model;
 
 public class GeneradorVapor implements InComponent {
+    boolean activa;
+    GeneradorVapor() {
+        activa = true;
+    }
     @Override
-    public void activa() throws CentralUBException {
-
+    public void activa() {
+        activa = true;
     }
 
     @Override
     public void desactiva() {
-
+        activa = false;
     }
 
     @Override
     public boolean getActivat() {
-        return false;
+        return activa;
     }
 
     @Override
@@ -23,11 +27,18 @@ public class GeneradorVapor implements InComponent {
 
     @Override
     public float getCostOperatiu() {
-        return 0;
+        if(!activa){
+            return 0.0F;
+        }
+        return 25.0F;
     }
 
     @Override
     public float calculaOutput(float input) {
-        return 0;
+        if(!activa){
+            return 25.0F;
+        }else{
+            return input*0.9F;
+        }
     }
 }
