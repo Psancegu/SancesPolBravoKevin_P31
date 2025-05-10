@@ -3,10 +3,12 @@ package prog2.model;
 import prog2.vista.CentralUBException;
 
 public class BombaRefrigerant implements InBombaRefrigerant {
-    int id;
-    boolean activo;
-    boolean foraServei;
-    VariableUniforme varUniforme;
+    private int id;
+    private boolean activo;
+    private boolean foraServei;
+    private VariableUniforme varUniforme;
+
+
     BombaRefrigerant(VariableUniforme var,int identificador) {
         varUniforme = var;
         id = identificador;
@@ -67,7 +69,7 @@ public class BombaRefrigerant implements InBombaRefrigerant {
         }
     }
     public String toString(){
-        System.out.println("id=" + id+", Activitat="+activo+", Fora de servei="+foraServei);
+        System.out.println("id=" + id+", Activat="+activo+", Fora de servei="+foraServei);
         return null;
     }
 }

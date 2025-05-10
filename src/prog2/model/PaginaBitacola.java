@@ -1,5 +1,18 @@
 package prog2.model;
 
 public class PaginaBitacola {
-    int dia;
+    private int dia;
+
+    public PaginaBitacola() {
+        this.dia = 0;
+    }
+
+    public PaginaBitacola(int dia) {
+        this.dia = dia;
+    }
+
+    public int getDia() {
+        return dia;
+    }
+
 }
