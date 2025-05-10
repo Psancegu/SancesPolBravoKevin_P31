@@ -16,6 +16,10 @@ public class PaginaIncidencies extends PaginaBitacola{
     }
 
     public String getIncidencies() {
+        if(incidencies.isEmpty()) {
+            return "- No hi ha cap incidència";
+        }
+
         StringBuilder total = new StringBuilder();
         Iterator<String> it = incidencies.iterator();
         while(it.hasNext()){
