@@ -92,5 +92,5 @@ public interface InDades {
      * en curs.
      * @param demandaPotencia Demanda de potència actual de la central.
      */
-    public Bitacola finalitzaDia(float demandaPotencia);
+    public Bitacola finalitzaDia(float demandaPotencia) throws CentralUBException;
 }

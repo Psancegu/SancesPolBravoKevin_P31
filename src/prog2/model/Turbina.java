@@ -3,7 +3,9 @@ package prog2.model;
 import prog2.vista.CentralUBException;
 
 public class Turbina implements InComponent{
-    boolean activa;
+    private boolean activa;
+
+
     Turbina(){
         activa = true;
     }

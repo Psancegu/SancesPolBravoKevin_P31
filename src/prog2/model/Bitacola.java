@@ -30,6 +30,18 @@ public class Bitacola implements InBitacola{
         return aux;
     }
 
+    public PaginaEstat getPaginaEstat() {
+        Iterator<PaginaBitacola> it = paginesBitacola.iterator();
+        PaginaEstat retornar = new PaginaEstat();
+        PaginaBitacola aux = it.next();
+        while(it.hasNext()) {
+            if(aux instanceof PaginaEstat) {
+                retornar = (PaginaEstat) aux;
+            }
+        }
+        return retornar;
+    }
+
     public String generateToString(){
         StringBuilder aux = new StringBuilder();
         Iterator<PaginaBitacola> it = paginesBitacola.iterator();

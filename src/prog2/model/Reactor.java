@@ -41,7 +41,13 @@ public class Reactor implements InComponent{
     @Override
     public void revisa(PaginaIncidencies p) throws CentralUBException {
         if (!active) {
-            p.afegeixIncidencia("El reactor de vapor està desactivat");
+            p.afegeixIncidencia("El reactor està desactivat");
+        }
+        else{
+            if(temperatura>1000.0F){
+                desactiva();
+                p.afegeixIncidencia("El reactor està desactivat perquè supera la temperatura màxima");
+            }
         }
     }
 

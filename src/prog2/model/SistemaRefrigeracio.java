@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 public class SistemaRefrigeracio implements InComponent {
     ArrayList<BombaRefrigerant> bombaRefrigerants;
+
     public void afegirBomba(BombaRefrigerant b){
         bombaRefrigerants.add(b);
     }
