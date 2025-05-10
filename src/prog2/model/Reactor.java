@@ -3,17 +3,22 @@ package prog2.model;
 import prog2.vista.CentralUBException;
 
 public class Reactor implements InComponent{
-    boolean active;
-    float temperatura;
+    private boolean active;
+    private float temperatura;
+
+
     public Reactor() {
         active = false;
     }
+
     public float getTemperatura() {
         return temperatura;
     }
+
     public void setTemperatura(float temperatura) {
         this.temperatura = temperatura;
     }
+
     @Override
     public void activa() throws CentralUBException {
         if(temperatura>1000.0F){
@@ -34,8 +39,10 @@ public class Reactor implements InComponent{
     }
 
     @Override
-    public void revisa(PaginaIncidencies p) {
-
+    public void revisa(PaginaIncidencies p) throws CentralUBException {
+        if (!active) {
+            p.afegeixIncidencia("El reactor de vapor està desactivat");
+        }
     }
 
     @Override

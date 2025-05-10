@@ -1,7 +1,11 @@
 package prog2.model;
 
+import prog2.vista.CentralUBException;
+
 public class GeneradorVapor implements InComponent {
-    boolean activa;
+    private boolean activa;
+
+
     GeneradorVapor() {
         activa = true;
     }
@@ -21,8 +25,10 @@ public class GeneradorVapor implements InComponent {
     }
 
     @Override
-    public void revisa(PaginaIncidencies p) {
-
+    public void revisa(PaginaIncidencies p) throws CentralUBException {
+        if (!activa) {
+            p.afegeixIncidencia("El generador de vapor està desactivat.");
+        }
     }
 
     @Override

@@ -42,7 +42,7 @@ public class SistemaRefrigeracio implements InComponent {
     }
 
     @Override
-    public void revisa(PaginaIncidencies p) {
+    public void revisa(PaginaIncidencies p) throws CentralUBException {
         Iterator<BombaRefrigerant> it = bombaRefrigerants.iterator();
         while(it.hasNext()){
             BombaRefrigerant b = it.next();

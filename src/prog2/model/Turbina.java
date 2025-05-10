@@ -23,8 +23,10 @@ public class Turbina implements InComponent{
     }
 
     @Override
-    public void revisa(PaginaIncidencies p) {
-
+    public void revisa(PaginaIncidencies p) throws CentralUBException {
+        if (!activa) {
+            p.afegeixIncidencia("El generador de vapor està desactivat durant la revisió.");
+        }
     }
 
     @Override
