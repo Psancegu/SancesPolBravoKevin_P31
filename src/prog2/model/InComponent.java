@@ -4,7 +4,6 @@
  */
 package prog2.model;
 
-import java.util.List;
 import prog2.vista.CentralUBException;
 
 /**
@@ -35,7 +34,7 @@ public interface InComponent {
      * una incidència que s'ha de registrar dins d'una pàgina d'incidències.
      * @param p Objecte de tipus PaginaIncidencies.
      */
-    public void revisa (PaginaIncidencies p);
+    public void revisa (PaginaIncidencies p) throws CentralUBException;
     
     /**
      * Obté el cost operatiu del component. El cost operatiu depèn de si el 

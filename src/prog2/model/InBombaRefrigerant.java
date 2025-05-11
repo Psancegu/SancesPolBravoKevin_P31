@@ -41,7 +41,7 @@ public interface InBombaRefrigerant {
      * @param p Objecte de tipus PaginaIncidencies per a registrar si la bomba 
      * es queda fora de servei.
      */
-    public void revisa (PaginaIncidencies p);
+    public void revisa (PaginaIncidencies p) throws CentralUBException;
     
     /**
      * Retorna true si la bomba refrigerant està fora de servei.

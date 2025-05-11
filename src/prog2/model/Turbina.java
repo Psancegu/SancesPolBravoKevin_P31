@@ -3,7 +3,9 @@ package prog2.model;
 import prog2.vista.CentralUBException;
 
 public class Turbina implements InComponent{
-    boolean activa;
+    private boolean activa;
+
+
     Turbina(){
         activa = true;
     }
@@ -23,8 +25,10 @@ public class Turbina implements InComponent{
     }
 
     @Override
-    public void revisa(PaginaIncidencies p) {
-
+    public void revisa(PaginaIncidencies p) throws CentralUBException {
+        if (!activa) {
+            p.afegeixIncidencia("El generador de vapor està desactivat durant la revisió.");
+        }
     }
 
     @Override

@@ -3,17 +3,19 @@ package prog2.model;
 import prog2.vista.CentralUBException;
 
 public class BombaRefrigerant implements InBombaRefrigerant {
-    int id;
-    boolean activo;
-    boolean foraServei;
-    VariableUniforme varUniforme;
-    BombaRefrigerant(VariableUniforme var,int identificador) {
+    private int id;
+    private boolean activo;
+    private boolean foraServei;
+    private VariableUniforme varUniforme;
+
+
+    public BombaRefrigerant(VariableUniforme var,int identificador) {
         varUniforme = var;
         id = identificador;
         activo = false;
         foraServei = false;
-
     }
+
     @Override
     public int getId() {
         return id;
@@ -38,9 +40,17 @@ public class BombaRefrigerant implements InBombaRefrigerant {
     }
 
     @Override
-    public void revisa(PaginaIncidencies p) {
-        int prob = varUniforme.seguentValor();
-
+    public void revisa(PaginaIncidencies p) throws CentralUBException {
+        VariableUniforme variableUniforme = new VariableUniforme(33L);
+        int valor = variableUniforme.seguentValor();
+        if (valor < 25) {
+            p.afegeixIncidencia("La bomba refrigerant amb ID:" + getId() + "ha quedat fora de servei.");
+            foraServei = true;
+            desactiva();
+        }
+        else{
+            activa();
+        }
     }
 
     @Override
@@ -50,7 +60,6 @@ public class BombaRefrigerant implements InBombaRefrigerant {
 
     @Override
     public float getCapacitat() {
-
         if(!activo){
             return 0.0F;
         }else{
@@ -66,8 +75,8 @@ public class BombaRefrigerant implements InBombaRefrigerant {
             return 0.0F;
         }
     }
+
     public String toString(){
-        System.out.println("id=" + id+", Activitat="+activo+", Fora de servei="+foraServei);
-        return null;
+        return "Id=" + id+", Activat="+activo+", Fora de servei="+foraServei;
     }
 }
