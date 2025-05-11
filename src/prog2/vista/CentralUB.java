@@ -255,7 +255,7 @@ public class CentralUB {
     
     private void finalitzaDia() throws CentralUBException {
         // Finalitzar dia i imprimir informacio de la central
-        String info = new String();
+        String info;
         info = adaptador.finalitzaDia(demandaPotencia);
         System.out.println(info);
         System.out.println("Dia finalitzat\n");

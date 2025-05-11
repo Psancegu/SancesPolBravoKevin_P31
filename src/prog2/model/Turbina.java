@@ -8,7 +8,7 @@ public class Turbina implements InComponent, Serializable {
     private boolean activa;
 
 
-    Turbina(){
+    public Turbina(){
         activa = true;
     }
     @Override
