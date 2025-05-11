@@ -121,17 +121,29 @@ public class CentralUB {
                 opcio = menu.getOpcio(sc);
 
                 switch (opcio) {
-                    case GESTIO_BARRES:
-                        gestioBarres(sc);
-                        break;
-                    case GESTIO_REACTOR:
-                        gestioReactor(sc);
-                        break;
                     case GESTIO_REFRIGERACIO:
                         gestioRefrigeracio(sc);
                         break;
+                    case MOSTRAR_ESTAT_CENTRAL:
+                        System.out.println(adaptador.mostrarEstat());
+                        break;
+                    case MOSTRAR_BITACOLA:
+                        System.out.println(adaptador.mostrarBitacola());
+                        break;
+                    case MOSTRAR_INCIDENCIES:
+                        System.out.println(adaptador.mostrarIncidencies());
+                        break;
+                    case OBTENIR_DEMANDA_SATISFETA:
+                        System.out.println(adaptador.obtenirDemandaSatisfeta(demandaPotencia));
+                        break;
                     case FINALITZAR_DIA:
                         finalitzaDia();
+                        break;
+                    case GUARDAR_DADES:
+                        adaptador.guardarDades("Central.dat");
+                        break;
+                    case CARREGA_DADES:
+                        adaptador.carregarDades("Central.dat");
                         break;
                     case SORTIR:
                         System.out.println("Fins aviat!");
