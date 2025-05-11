@@ -11,16 +11,18 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * Classe Dades que gestiona la informació de la central nuclear.
+ * Conté els diversos components i la seva interacció en el sistema.
  *
  * @author Daniel Ortiz
  */
 public class Dades implements InDades, Serializable {
-    public final static long  VAR_UNIF_SEED = 123;
+    public final static long VAR_UNIF_SEED = 123;
     public final static float GUANYS_INICIALS = 0;
     public final static float PREU_UNITAT_POTENCIA = 1;
     public final static float PENALITZACIO_EXCES_POTENCIA = 250;
 
-    // Afegir atributs:
+    // Atributs de la central nuclear
     private VariableUniforme variableUniforme;
     private float insercioBarres;
     private Reactor reactor;
@@ -31,8 +33,13 @@ public class Dades implements InDades, Serializable {
     private int dia;
     private float guanysAcumulats;
 
+    /**
+     * Constructor de la classe Dades. Inicialitza els components de la central.
+     *
+     * @throws CentralUBException Si hi ha algun problema en la configuració inicial.
+     */
     public Dades() throws CentralUBException {
-        // Inicialitza Atributs
+        // Inicialitza atributs
         this.variableUniforme = new VariableUniforme(VAR_UNIF_SEED);
         this.insercioBarres = 100;
         this.reactor = new Reactor();
@@ -60,167 +67,251 @@ public class Dades implements InDades, Serializable {
         this.sistemaRefrigeracio.desactiva();
     }
 
+    /**
+     * Retorna el valor d'inserció de barres al reactor.
+     *
+     * @return Valor de les barres inserides.
+     */
     @Override
     public float getInsercioBarres() {
         return insercioBarres;
     }
 
+    /**
+     * Estableix el valor d'inserció de barres al reactor.
+     *
+     * @param insercioBarres Nou valor d'inserció.
+     * @throws CentralUBException Si hi ha un error en l'establiment.
+     */
     @Override
     public void setInsercioBarres(float insercioBarres) throws CentralUBException {
         this.insercioBarres = insercioBarres;
     }
 
+    /**
+     * Activa el reactor de la central.
+     *
+     * @throws CentralUBException Si hi ha un error en l'activació.
+     */
     @Override
     public void activaReactor() throws CentralUBException {
         this.reactor.activa();
     }
 
+    /**
+     * Desactiva el reactor de la central.
+     */
     @Override
     public void desactivaReactor() {
         this.reactor.desactiva();
     }
 
+    /**
+     * Mostra l'estat actual del reactor.
+     *
+     * @return Objecte Reactor amb el seu estat.
+     */
     @Override
     public Reactor mostraReactor() {
         return this.reactor;
     }
 
+    /**
+     * Activa una bomba específica dins el sistema de refrigeració.
+     *
+     * @param id Identificador de la bomba.
+     * @throws CentralUBException Si hi ha un error en l'activació.
+     */
     @Override
     public void activaBomba(int id) throws CentralUBException {
         Iterator<BombaRefrigerant> it = this.sistemaRefrigeracio.bombaRefrigerants.iterator();
         BombaRefrigerant b = it.next();
-        while(it.hasNext() && b.getId() != id){
+        while (it.hasNext() && b.getId() != id) {
             b = it.next();
         }
         b.activa();
     }
 
+    /**
+     * Desactiva una bomba específica dins el sistema de refrigeració.
+     *
+     * @param id Identificador de la bomba.
+     */
     @Override
     public void desactivaBomba(int id) {
         Iterator<BombaRefrigerant> it = this.sistemaRefrigeracio.bombaRefrigerants.iterator();
         BombaRefrigerant b = it.next();
-        while(it.hasNext() && b.getId() != id){
+        while (it.hasNext() && b.getId() != id) {
             b = it.next();
         }
         b.desactiva();
     }
 
+    /**
+     * Activa totes les bombes del sistema de refrigeració.
+     *
+     * @throws CentralUBException Si hi ha un error en l'activació.
+     */
     public void activarTotesBombes() throws CentralUBException {
         Iterator<BombaRefrigerant> it = this.sistemaRefrigeracio.bombaRefrigerants.iterator();
         BombaRefrigerant b = it.next();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             b.activa();
             b = it.next();
         }
     }
 
+    /**
+     * Desactiva totes les bombes del sistema de refrigeració.
+     *
+     * @throws CentralUBException Si hi ha un error en la desactivació.
+     */
     public void desactivarTotesBombes() throws CentralUBException {
         Iterator<BombaRefrigerant> it = this.sistemaRefrigeracio.bombaRefrigerants.iterator();
         BombaRefrigerant b = it.next();
-        while(it.hasNext()){
+        while (it.hasNext()) {
             b.desactiva();
             b = it.next();
         }
     }
 
+    /**
+     * Mostra l'estat actual del sistema de refrigeració.
+     *
+     * @return Objecte SistemaRefrigeracio amb l'estat actual.
+     */
     @Override
     public SistemaRefrigeracio mostraSistemaRefrigeracio() {
         return this.sistemaRefrigeracio;
     }
 
+    /**
+     * Calcula la potència generada pel sistema.
+     *
+     * @return Valor de la potència produïda.
+     */
     @Override
     public float calculaPotencia() {
         return turbina.calculaOutput(generadorVapor.calculaOutput(sistemaRefrigeracio.calculaOutput(reactor.calculaOutput(insercioBarres))));
     }
 
+    /**
+     * Retorna els guanys acumulats de la central.
+     *
+     * @return Valor dels guanys acumulats.
+     */
     @Override
     public float getGuanysAcumulats() {
         return this.guanysAcumulats;
     }
 
+    /**
+     * Mostra l'estat actual de la central.
+     *
+     * @return Objecte PaginaEstat amb les dades actuals de la central.
+     */
     @Override
     public PaginaEstat mostraEstat() {
         float outputReac = this.reactor.calculaOutput(this.insercioBarres);
         float outputSR = this.sistemaRefrigeracio.calculaOutput(outputReac);
         float outputGenVapor = this.generadorVapor.calculaOutput(outputSR);
         float outputTurbina = this.turbina.calculaOutput(outputGenVapor);
-        return new PaginaEstat(dia, this.insercioBarres, outputReac , outputSR , outputGenVapor, outputTurbina);
+        return new PaginaEstat(dia, this.insercioBarres, outputReac, outputSR, outputGenVapor, outputTurbina);
     }
 
+    /**
+     * Mostra la bitàcola amb el registre històric del sistema.
+     *
+     * @return Objecte Bitacola amb el registre actual.
+     */
     @Override
     public Bitacola mostraBitacola() {
         return this.bitacola;
     }
 
+    /**
+     * Retorna la llista d'incidències registrades a la bitàcola.
+     *
+     * @return Llista de PaginaIncidencies amb les incidències registrades.
+     */
     @Override
     public List<PaginaIncidencies> mostraIncidencies() {
         return this.bitacola.getIncidencies();
     }
 
-    public float getPercDemanda(float demandaPotencia){
-        return (calculaPotencia() / demandaPotencia)*100;
+    /**
+     * Calcula el percentatge de demanda satisfeta en funció de la potència requerida.
+     *
+     * @param demandaPotencia Quantitat de potència demanada.
+     * @return Percentatge de demanda satisfeta.
+     */
+    public float getPercDemanda(float demandaPotencia) {
+        return (calculaPotencia() / demandaPotencia) * 100;
     }
 
     /**
-     * Actualitza l'economia de la central. Genera una pàgina econòmica a 
-     * partir de la demanda de potencia actual. Aquesta pàgina econòmica inclou 
-     * beneficis, penalització per excès de potència, costos operatius y 
-     * guanys acumulats.
+     * Actualitza l'economia de la central.
+     * Genera una pàgina econòmica a partir de la demanda de potència actual, calculant beneficis, penalització per excés de potència, costos operatius i guanys acumulats.
+     *
      * @param demandaPotencia Demanda de potència actual.
+     * @return Objecte PaginaEconomica amb la informació econòmica del dia.
      */
-    private PaginaEconomica actualitzaEconomia(float demandaPotencia){
-        float demandaSatisfeta = (calculaPotencia() / demandaPotencia)*100;
-
+    private PaginaEconomica actualitzaEconomia(float demandaPotencia) {
+        float demandaSatisfeta = (calculaPotencia() / demandaPotencia) * 100;
         float beneficis;
         float penalitzacio = 0.0f;
-        if(calculaPotencia() > demandaPotencia){
-            beneficis =  demandaPotencia;
-        }
-        else{
+
+        if (calculaPotencia() > demandaPotencia) {
+            beneficis = demandaPotencia;
+        } else {
             beneficis = calculaPotencia();
         }
 
-        if(calculaPotencia() > demandaPotencia){
-            penalitzacio =  PENALITZACIO_EXCES_POTENCIA;
+        if (calculaPotencia() > demandaPotencia) {
+            penalitzacio = PENALITZACIO_EXCES_POTENCIA;
         }
 
-        float costOperatiu = this.reactor.getCostOperatiu() + this.sistemaRefrigeracio.getCostOperatiu() + this.turbina.getCostOperatiu() + this.generadorVapor.getCostOperatiu();
-        float guanys = beneficis -penalitzacio- costOperatiu;
+        float costOperatiu = this.reactor.getCostOperatiu() + this.sistemaRefrigeracio.getCostOperatiu() +
+                this.turbina.getCostOperatiu() + this.generadorVapor.getCostOperatiu();
+        float guanys = beneficis - penalitzacio - costOperatiu;
 
-        PaginaEconomica aux = new PaginaEconomica(dia, demandaPotencia, calculaPotencia(), demandaSatisfeta, beneficis, penalitzacio, costOperatiu, guanys);
-        return aux;
+        return new PaginaEconomica(dia, demandaPotencia, calculaPotencia(), demandaSatisfeta, beneficis, penalitzacio, costOperatiu, guanys);
     }
 
     /**
-     * Aquest mètode ha de establir la nova temperatura del reactor.
+     * Estableix la nova temperatura del reactor després de la refrigeració.
      */
     private void refrigeraReactor() {
-        this.reactor.setTemperatura(Math.max(25,this.reactor.getTemperatura()-this.sistemaRefrigeracio.calculaOutput(this.reactor.calculaOutput(insercioBarres))));
+        this.reactor.setTemperatura(Math.max(25, this.reactor.getTemperatura() - this.sistemaRefrigeracio.calculaOutput(this.reactor.calculaOutput(insercioBarres))));
     }
 
     /**
-     * Aquest mètode ha de revisar els components de la central. Si
-     * es troben incidències, s'han de registrar en la pàgina d'incidències
-     * que es proporciona com a paràmetre d'entrada.
-     * @param paginaIncidencies Pàgina d'incidències.
+     * Revisa els components de la central i registra incidències en la pàgina proporcionada.
+     *
+     * @param paginaIncidencies Pàgina d'incidències on s'afegiran els possibles errors.
+     * @throws CentralUBException Si es detecten problemes en els components de la central.
      */
     private void revisaComponents(PaginaIncidencies paginaIncidencies) throws CentralUBException {
-          this.reactor.revisa(paginaIncidencies);
-          this.sistemaRefrigeracio.revisa(paginaIncidencies);
-          this.generadorVapor.revisa(paginaIncidencies);
-          this.turbina.revisa(paginaIncidencies);
+        this.reactor.revisa(paginaIncidencies);
+        this.sistemaRefrigeracio.revisa(paginaIncidencies);
+        this.generadorVapor.revisa(paginaIncidencies);
+        this.turbina.revisa(paginaIncidencies);
     }
 
+    /**
+     * Finalitza el dia de funcionament de la central nuclear.
+     * Actualitza l'estat dels components, genera informes i registra les dades del dia.
+     *
+     * @param demandaPotencia Quantitat de potència demanada.
+     * @return Bitacola amb el registre del dia finalitzat.
+     * @throws CentralUBException Si hi ha errors durant el procés.
+     */
     public Bitacola finalitzaDia(float demandaPotencia) throws CentralUBException {
         // Actualitza economia
         PaginaEconomica paginaEconomica = actualitzaEconomia(demandaPotencia);
 
-        // Genera pàgina d'estat amb la configuració escollida (la nova pàgina
-        // d'estat inclou la nova configuració escollida pel operador abans de
-        // refrigerar el reactor)
+        // Genera pàgina d'estat amb la configuració escollida
         PaginaEstat paginaEstat = mostraEstat();
-
-        // Actualitza estat de la central...
 
         // Refrigera el reactor
         refrigeraReactor();
@@ -229,15 +320,15 @@ public class Dades implements InDades, Serializable {
         PaginaIncidencies paginaIncidencies = new PaginaIncidencies(dia);
         revisaComponents(paginaIncidencies);
 
-        // Incrementa dia
+        // Incrementa el dia
         dia += 1;
 
-        // Guarda pàgines de bitacola
+        // Guarda pàgines a la bitàcola
         bitacola.afegeixPagina(paginaEconomica);
         bitacola.afegeixPagina(paginaEstat);
         bitacola.afegeixPagina(paginaIncidencies);
 
-        // Retorna pàgines
+        // Retorna la bitàcola amb el registre del dia
         Bitacola bitacolaDia = new Bitacola();
         bitacolaDia.afegeixPagina(paginaEconomica);
         bitacolaDia.afegeixPagina(paginaEstat);
@@ -245,3 +336,4 @@ public class Dades implements InDades, Serializable {
         return bitacolaDia;
     }
 }
+

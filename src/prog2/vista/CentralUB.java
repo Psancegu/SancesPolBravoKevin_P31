@@ -9,6 +9,7 @@ import prog2.adaptador.Adaptador;
 import java.util.Scanner;
 
 /**
+ * Classe CentralUB que gestiona la interacció amb l'usuari i l'execució dels processos de la central nuclear.
  *
  * @author Daniel Ortiz
  */
@@ -34,6 +35,7 @@ public class CentralUB {
         MOSTRAR_ESTAT, SORTIR
     }
 
+    /** Descripcions dels menús **/
     final static private String[] descMenuCentralUB = {
             "Gestió de les barres de control del reactor",
             "Gestió de l'estat i la temperatura del reactor",
@@ -70,32 +72,39 @@ public class CentralUB {
             "Tornar al menú principal"
     };
 
-
-
+    /** Constants per generar la demanda de potència **/
     public final static float DEMANDA_MAX = 1800;
     public final static float DEMANDA_MIN = 250;
     public final static float VAR_NORM_MEAN = 1000;
     public final static float VAR_NORM_STD = 800;
     public final static long VAR_NORM_SEED = 123;
-    
+
     /** Generador aleatori de la demanda de potència **/
     private VariableNormal variableNormal;
-    
+
     /** Demanda de potència del dia actual **/
     private float demandaPotencia;
 
+    /** Adaptador per interactuar amb el sistema **/
     private Adaptador adaptador;
-    
-    /* Constructor*/
+
+    /**
+     * Constructor de la classe CentralUB.
+     * Inicialitza el sistema i la demanda de potència.
+     *
+     * @throws CentralUBException Si hi ha un error en la inicialització.
+     */
     public CentralUB() throws CentralUBException {
         variableNormal = new VariableNormal(VAR_NORM_MEAN, VAR_NORM_STD, VAR_NORM_SEED);
         demandaPotencia = generaDemandaPotencia();
         this.adaptador = new Adaptador();
-        
-        // Afegir codi adicional si fos necessari:
-
     }
 
+    /**
+     * Gestiona el menú principal de la central nuclear.
+     *
+     * @throws CentralUBException Si hi ha un error en l'execució del menú.
+     */
     public void gestioCentralUB() throws CentralUBException {
         Scanner sc = new Scanner(System.in);
         Menu<OpcionsMenuCentralUB> menu = new Menu<>("Menú Principal", OpcionsMenuCentralUB.values());
@@ -121,47 +130,33 @@ public class CentralUB {
                     case GESTIO_REFRIGERACIO:
                         gestioRefrigeracio(sc);
                         break;
-                    case MOSTRAR_ESTAT_CENTRAL:
-                        System.out.println(adaptador.mostrarEstat());
-                        break;
-                    case MOSTRAR_BITACOLA:
-                        System.out.println(adaptador.mostrarBitacola());
-                        break;
-                    case MOSTRAR_INCIDENCIES:
-                        System.out.println(adaptador.mostrarIncidencies());
-                        break;
-                    case OBTENIR_DEMANDA_SATISFETA:
-                        System.out.println(adaptador.obtenirDemandaSatisfeta(demandaPotencia));
-                        break;
                     case FINALITZAR_DIA:
                         finalitzaDia();
-                        break;
-                    case GUARDAR_DADES:
-                        adaptador.guardarDades("Central.dat");
-                        break;
-                    case CARREGA_DADES:
-                        adaptador.carregarDades("Central.dat");
                         break;
                     case SORTIR:
                         System.out.println("Fins aviat!");
                         break;
                 }
-
             } while (opcio != OpcionsMenuCentralUB.SORTIR);
         } catch (Exception e) {
             System.err.println("S'ha produït un error: " + e.getMessage());
         }
     }
 
-
+    /**
+     * Gestiona el submenú de barres de control del reactor.
+     *
+     * @param sc Scanner per obtenir les opcions de l'usuari.
+     * @throws CentralUBException Si hi ha un error en el procés.
+     */
     private void gestioBarres(Scanner sc) throws CentralUBException {
         Menu<OpcionsSubmenuBarres> submenu = new Menu<>("Gestió Barres de Control", OpcionsSubmenuBarres.values());
         submenu.setDescripcions(descMenuBarres);
+        submenu.mostrarMenu();
         OpcionsSubmenuBarres opcio;
-        do {
-            submenu.mostrarMenu();
-            opcio = submenu.getOpcio(sc);
 
+        do {
+            opcio = submenu.getOpcio(sc);
             switch (opcio) {
                 case OBTENIR_INSERCIO:
                     System.out.println("Inserció actual de les barres: " + adaptador.obtenirInsercioBarres() + "%");
@@ -169,7 +164,6 @@ public class CentralUB {
                 case ESTABLIR_INSERCIO:
                     System.out.print("Entra el grau d'inserció (0-100): ");
                     float insercio = sc.nextFloat();
-                    sc.nextLine();
                     adaptador.establirInsercioBarres(insercio);
                     break;
                 case SORTIR:
@@ -179,15 +173,20 @@ public class CentralUB {
         } while (opcio != OpcionsSubmenuBarres.SORTIR);
     }
 
-
+    /**
+     * Gestiona el submenú del reactor nuclear.
+     *
+     * @param sc Scanner per obtenir les opcions de l'usuari.
+     * @throws CentralUBException Si hi ha un error en el procés.
+     */
     private void gestioReactor(Scanner sc) throws CentralUBException {
         Menu<OpcionsSubmenuReactor> submenu = new Menu<>("Gestió del Reactor", OpcionsSubmenuReactor.values());
         submenu.setDescripcions(descMenuReactor);
+        submenu.mostrarMenu();
         OpcionsSubmenuReactor opcio;
-        do {
-            submenu.mostrarMenu();
-            opcio = submenu.getOpcio(sc);
 
+        do {
+            opcio = submenu.getOpcio(sc);
             switch (opcio) {
                 case ACTIVAR:
                     adaptador.activarReactor();
@@ -205,15 +204,20 @@ public class CentralUB {
         } while (opcio != OpcionsSubmenuReactor.SORTIR);
     }
 
-
+    /**
+     * Gestiona el submenú del sistema de refrigeració.
+     *
+     * @param sc Scanner per obtenir les opcions de l'usuari.
+     * @throws CentralUBException Si hi ha un error en el procés.
+     */
     private void gestioRefrigeracio(Scanner sc) throws CentralUBException {
         Menu<OpcionsSubmenuRefrigeracio> submenu = new Menu<>("Gestió Sistema de Refrigeració", OpcionsSubmenuRefrigeracio.values());
         submenu.setDescripcions(descMenuRefrigeracio);
+        submenu.mostrarMenu();
         OpcionsSubmenuRefrigeracio opcio;
-        do {
-            submenu.mostrarMenu();
-            opcio = submenu.getOpcio(sc);
 
+        do {
+            opcio = submenu.getOpcio(sc);
             switch (opcio) {
                 case ACTIVAR_TOTES:
                     adaptador.activarTotesBombes();
@@ -224,13 +228,11 @@ public class CentralUB {
                 case ACTIVAR_BOMBA:
                     System.out.print("ID de la bomba (0-3): ");
                     int idAct = sc.nextInt();
-                    sc.nextLine();
                     adaptador.activarBomba(idAct);
                     break;
                 case DESACTIVAR_BOMBA:
                     System.out.print("ID de la bomba (0-3): ");
                     int id = sc.nextInt();
-                    sc.nextLine();
                     adaptador.desactivarBomba(id);
                     break;
                 case MOSTRAR_ESTAT:
@@ -243,26 +245,35 @@ public class CentralUB {
         } while (opcio != OpcionsSubmenuRefrigeracio.SORTIR);
     }
 
+
+    /** Funcions dels submenús comentades **/
+
+    /**
+     * Genera una nova demanda de potència per al dia actual.
+     *
+     * @return Valor de la demanda de potència generada.
+     */
     private float generaDemandaPotencia(){
         float valor = Math.round(variableNormal.seguentValor());
         if (valor > DEMANDA_MAX)
             return DEMANDA_MAX;
+        else if (valor < DEMANDA_MIN)
+            return DEMANDA_MIN;
         else
-            if (valor < DEMANDA_MIN)
-                return DEMANDA_MIN;
-            else
-                return valor;
+            return valor;
     }
-    
+
+    /**
+     * Finalitza el dia i actualitza la informació del sistema.
+     *
+     * @throws CentralUBException Si hi ha un error durant el procés.
+     */
     private void finalitzaDia() throws CentralUBException {
-        // Finalitzar dia i imprimir informacio de la central
-        String info;
-        info = adaptador.finalitzaDia(demandaPotencia);
+        String info = adaptador.finalitzaDia(demandaPotencia);
         System.out.println(info);
         System.out.println("Dia finalitzat\n");
-        
-        // Generar i mostrar nova demanda de potencia
+
         demandaPotencia = generaDemandaPotencia();
-        System.out.println("La demanda de potència elèctrica avui es de " + demandaPotencia + " unitats");
+        System.out.println("La demanda de potència elèctrica avui és de " + demandaPotencia + " unitats");
     }
 }
