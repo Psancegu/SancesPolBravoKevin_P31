@@ -140,7 +140,11 @@ public class Dades implements InDades, Serializable {
 
     @Override
     public PaginaEstat mostraEstat() {
-        return bitacola.getPaginaEstat();
+        float outputReac = this.reactor.calculaOutput(this.insercioBarres);
+        float outputSR = this.sistemaRefrigeracio.calculaOutput(outputReac);
+        float outputGenVapor = this.generadorVapor.calculaOutput(outputSR);
+        float outputTurbina = this.turbina.calculaOutput(outputGenVapor);
+        return new PaginaEstat(dia, this.insercioBarres, outputReac , outputSR , outputGenVapor, outputTurbina);
     }
 
     @Override
