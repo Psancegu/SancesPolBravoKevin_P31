@@ -6,6 +6,7 @@ package prog2.model;
 
 import prog2.vista.CentralUBException;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author Daniel Ortiz
  */
-public class Dades implements InDades {
+public class Dades implements InDades, Serializable {
     public final static long  VAR_UNIF_SEED = 123;
     public final static float GUANYS_INICIALS = 0;
     public final static float PREU_UNITAT_POTENCIA = 1;
@@ -104,6 +105,24 @@ public class Dades implements InDades {
         b.desactiva();
     }
 
+    public void activarTotesBombes() throws CentralUBException {
+        Iterator<BombaRefrigerant> it = this.sistemaRefrigeracio.bombaRefrigerants.iterator();
+        BombaRefrigerant b = it.next();
+        while(it.hasNext()){
+            b.activa();
+            b = it.next();
+        }
+    }
+
+    public void desactivarTotesBombes() throws CentralUBException {
+        Iterator<BombaRefrigerant> it = this.sistemaRefrigeracio.bombaRefrigerants.iterator();
+        BombaRefrigerant b = it.next();
+        while(it.hasNext()){
+            b.desactiva();
+            b = it.next();
+        }
+    }
+
     @Override
     public SistemaRefrigeracio mostraSistemaRefrigeracio() {
         return this.sistemaRefrigeracio;
@@ -134,6 +153,9 @@ public class Dades implements InDades {
         return this.bitacola.getIncidencies();
     }
 
+    public float getPercDemanda(float demandaPotencia){
+        return (calculaPotencia() / demandaPotencia)*100;
+    }
 
     /**
      * Actualitza l'economia de la central. Genera una pàgina econòmica a 

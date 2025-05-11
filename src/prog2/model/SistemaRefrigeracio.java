@@ -2,11 +2,16 @@ package prog2.model;
 
 import prog2.vista.CentralUBException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class SistemaRefrigeracio implements InComponent {
+public class SistemaRefrigeracio implements InComponent, Serializable {
     ArrayList<BombaRefrigerant> bombaRefrigerants;
+
+    public SistemaRefrigeracio() {
+        this.bombaRefrigerants = new ArrayList<>();
+    }
 
     public void afegirBomba(BombaRefrigerant b){
         bombaRefrigerants.add(b);
@@ -77,5 +82,16 @@ public class SistemaRefrigeracio implements InComponent {
         }else {
             return input;
         }
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder retornar = new StringBuilder("Sistema Refrigeració\n");
+        Iterator<BombaRefrigerant> it = bombaRefrigerants.iterator();
+        while(it.hasNext()) {
+            BombaRefrigerant b = it.next();
+            retornar.append(b.toString() + "\n");
+        }
+        return retornar.toString();
     }
 }
