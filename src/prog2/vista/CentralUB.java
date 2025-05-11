@@ -34,6 +34,42 @@ public class CentralUB {
         MOSTRAR_ESTAT, SORTIR
     }
 
+    final static private String[] descMenuCentralUB = {
+            "Gestió de les barres de control del reactor",
+            "Gestió de l'estat i la temperatura del reactor",
+            "Gestió del sistema de refrigeració de la central",
+            "Mostrar l'estat actual de la central per al dia en curs",
+            "Mostrar tota la bitàcola fins al dia actual",
+            "Mostrar totes les incidències registrades fins al dia actual",
+            "Mostrar la potència generada i el percentatge de demanda satisfeta amb la configuració actual",
+            "Finalitzar el dia i actualitzar la bitàcola",
+            "Guardar les dades actuals de la central",
+            "Carregar les dades d'una sessió anterior",
+            "Sortir de l’aplicació"
+    };
+
+    final static private String[] descMenuBarres = {
+            "Obtenir el grau d'inserció actual de les barres de control",
+            "Establir el grau d'inserció de les barres de control (0 a 100)",
+            "Tornar al menú principal"
+    };
+
+    final static private String[] descMenuReactor = {
+            "Activar el reactor nuclear",
+            "Desactivar el reactor nuclear",
+            "Mostrar si el reactor està activat i la seva temperatura actual",
+            "Tornar al menú principal"
+    };
+
+    final static private String[] descMenuRefrigeracio = {
+            "Activar totes les bombes de refrigeració",
+            "Desactivar totes les bombes de refrigeració",
+            "Activar una bomba concreta segons el seu identificador (0 a 3)",
+            "Desactivar una bomba concreta segons el seu identificador (0 a 3)",
+            "Mostrar l'estat de totes les bombes de refrigeració",
+            "Tornar al menú principal"
+    };
+
 
 
     public final static float DEMANDA_MAX = 1800;
@@ -60,13 +96,14 @@ public class CentralUB {
 
     }
 
-    public void gestioCentralUB() {
+    public void gestioCentralUB() throws CentralUBException {
         Scanner sc = new Scanner(System.in);
         Menu<OpcionsMenuCentralUB> menu = new Menu<>("Menú Principal", OpcionsMenuCentralUB.values());
 
         System.out.println("Benvingut a la planta PWR de la UB");
         System.out.println("La demanda de potència elèctrica avui és de " + demandaPotencia + " unitats");
 
+        menu.setDescripcions(descMenuCentralUB);
         OpcionsMenuCentralUB opcio;
         do {
             menu.mostrarMenu();
@@ -102,10 +139,10 @@ public class CentralUB {
                     }
                     break;
                 case GUARDAR_DADES:
-                    adaptador.guardarDades();
+                    adaptador.guardarDades("Central.dat");
                     break;
                 case CARREGA_DADES:
-                    adaptador.carregarDades();
+                    adaptador.carregarDades("Central.dat");
                     break;
                 case SORTIR:
                     System.out.println("Fins aviat!");
@@ -115,9 +152,10 @@ public class CentralUB {
         } while (opcio != OpcionsMenuCentralUB.SORTIR);
     }
 
-    // Submenú 1: Gestió Barres
-    private void gestioBarres(Scanner sc) {
+
+    private void gestioBarres(Scanner sc) throws CentralUBException {
         Menu<OpcionsSubmenuBarres> submenu = new Menu<>("Gestió Barres de Control", OpcionsSubmenuBarres.values());
+        submenu.setDescripcions(descMenuBarres);
         OpcionsSubmenuBarres opcio;
         do {
             submenu.mostrarMenu();
@@ -130,7 +168,7 @@ public class CentralUB {
                 case ESTABLIR_INSERCIO:
                     System.out.print("Entra el grau d'inserció (0-100): ");
                     float insercio = sc.nextFloat();
-                    sc.nextLine(); // neteja buffer
+                    sc.nextLine();
                     adaptador.establirInsercioBarres(insercio);
                     break;
                 case SORTIR:
@@ -140,9 +178,10 @@ public class CentralUB {
         } while (opcio != OpcionsSubmenuBarres.SORTIR);
     }
 
-    // Submenú 2: Gestió Reactor
-    private void gestioReactor(Scanner sc) {
+
+    private void gestioReactor(Scanner sc) throws CentralUBException {
         Menu<OpcionsSubmenuReactor> submenu = new Menu<>("Gestió del Reactor", OpcionsSubmenuReactor.values());
+        submenu.setDescripcions(descMenuReactor);
         OpcionsSubmenuReactor opcio;
         do {
             submenu.mostrarMenu();
@@ -165,9 +204,10 @@ public class CentralUB {
         } while (opcio != OpcionsSubmenuReactor.SORTIR);
     }
 
-    // Submenú 3: Gestió Sistema de Refrigeració
-    private void gestioRefrigeracio(Scanner sc) {
+
+    private void gestioRefrigeracio(Scanner sc) throws CentralUBException {
         Menu<OpcionsSubmenuRefrigeracio> submenu = new Menu<>("Gestió Sistema de Refrigeració", OpcionsSubmenuRefrigeracio.values());
+        submenu.setDescripcions(descMenuRefrigeracio);
         OpcionsSubmenuRefrigeracio opcio;
         do {
             submenu.mostrarMenu();
@@ -188,9 +228,9 @@ public class CentralUB {
                     break;
                 case DESACTIVAR_BOMBA:
                     System.out.print("ID de la bomba (0-3): ");
-                    int idDes = sc.nextInt();
+                    int id = sc.nextInt();
                     sc.nextLine();
-                    adaptador.desactivarBomba(idDes);
+                    adaptador.desactivarBomba(id);
                     break;
                 case MOSTRAR_ESTAT:
                     System.out.println(adaptador.mostrarEstatRefrigeracio());
