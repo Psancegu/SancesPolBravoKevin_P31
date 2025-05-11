@@ -8,7 +8,7 @@ public class GeneradorVapor implements InComponent, Serializable {
     private boolean activa;
 
 
-    GeneradorVapor() {
+    public GeneradorVapor() {
         activa = true;
     }
     @Override

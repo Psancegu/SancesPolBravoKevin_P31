@@ -66,7 +66,7 @@ public class Reactor implements InComponent, Serializable {
         if(!active ){
             return temperatura;
         }else{
-            return temperatura+(100-input)*10;
+            return temperatura+(100.0F-input)*10;
         }
     }
 }
