@@ -187,7 +187,7 @@ public class Dades implements InDades, Serializable {
         float costOperatiu = this.reactor.getCostOperatiu() + this.sistemaRefrigeracio.getCostOperatiu() + this.turbina.getCostOperatiu() + this.generadorVapor.getCostOperatiu();
         float guanys = beneficis -penalitzacio- costOperatiu;
 
-        PaginaEconomica aux = new PaginaEconomica(dia, demandaPotencia, getGuanysAcumulats(), demandaSatisfeta, beneficis, penalitzacio, costOperatiu, guanys);
+        PaginaEconomica aux = new PaginaEconomica(dia, demandaPotencia, calculaPotencia(), demandaSatisfeta, beneficis, penalitzacio, costOperatiu, guanys);
         return aux;
     }
 

@@ -105,51 +105,52 @@ public class CentralUB {
 
         menu.setDescripcions(descMenuCentralUB);
         OpcionsMenuCentralUB opcio;
-        do {
-            menu.mostrarMenu();
-            opcio = menu.getOpcio(sc);
 
-            switch (opcio) {
-                case GESTIO_BARRES:
-                    gestioBarres(sc);
-                    break;
-                case GESTIO_REACTOR:
-                    gestioReactor(sc);
-                    break;
-                case GESTIO_REFRIGERACIO:
-                    gestioRefrigeracio(sc);
-                    break;
-                case MOSTRAR_ESTAT_CENTRAL:
-                    System.out.println(adaptador.mostrarEstat());
-                    break;
-                case MOSTRAR_BITACOLA:
-                    System.out.println(adaptador.mostrarBitacola());
-                    break;
-                case MOSTRAR_INCIDENCIES:
-                    System.out.println(adaptador.mostrarIncidencies());
-                    break;
-                case OBTENIR_DEMANDA_SATISFETA:
-                    System.out.println(adaptador.obtenirDemandaSatisfeta(demandaPotencia));
-                    break;
-                case FINALITZAR_DIA:
-                    try {
+        try {
+            do {
+                menu.mostrarMenu();
+                opcio = menu.getOpcio(sc);
+
+                switch (opcio) {
+                    case GESTIO_BARRES:
+                        gestioBarres(sc);
+                        break;
+                    case GESTIO_REACTOR:
+                        gestioReactor(sc);
+                        break;
+                    case GESTIO_REFRIGERACIO:
+                        gestioRefrigeracio(sc);
+                        break;
+                    case MOSTRAR_ESTAT_CENTRAL:
+                        System.out.println(adaptador.mostrarEstat());
+                        break;
+                    case MOSTRAR_BITACOLA:
+                        System.out.println(adaptador.mostrarBitacola());
+                        break;
+                    case MOSTRAR_INCIDENCIES:
+                        System.out.println(adaptador.mostrarIncidencies());
+                        break;
+                    case OBTENIR_DEMANDA_SATISFETA:
+                        System.out.println(adaptador.obtenirDemandaSatisfeta(demandaPotencia));
+                        break;
+                    case FINALITZAR_DIA:
                         finalitzaDia();
-                    } catch (CentralUBException e) {
-                        System.err.println("Error en finalitzar dia: " + e.getMessage());
-                    }
-                    break;
-                case GUARDAR_DADES:
-                    adaptador.guardarDades("Central.dat");
-                    break;
-                case CARREGA_DADES:
-                    adaptador.carregarDades("Central.dat");
-                    break;
-                case SORTIR:
-                    System.out.println("Fins aviat!");
-                    break;
-            }
+                        break;
+                    case GUARDAR_DADES:
+                        adaptador.guardarDades("Central.dat");
+                        break;
+                    case CARREGA_DADES:
+                        adaptador.carregarDades("Central.dat");
+                        break;
+                    case SORTIR:
+                        System.out.println("Fins aviat!");
+                        break;
+                }
 
-        } while (opcio != OpcionsMenuCentralUB.SORTIR);
+            } while (opcio != OpcionsMenuCentralUB.SORTIR);
+        } catch (Exception e) {
+            System.err.println("S'ha produït un error: " + e.getMessage());
+        }
     }
 
 
