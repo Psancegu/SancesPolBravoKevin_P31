@@ -9,7 +9,14 @@ public class Bitacola implements InBitacola, Serializable {
     private ArrayList<PaginaBitacola> paginesBitacola;
 
     public Bitacola() {
+
         this.paginesBitacola = new ArrayList<>();
+        PaginaEstat dia0 = new PaginaEstat(0,0,0,0,0,0);
+        this.paginesBitacola.add(dia0);
+        PaginaEconomica dia0e = new PaginaEconomica(0,0,0,0,0,0,0,0);
+        this.paginesBitacola.add(dia0e);
+        PaginaIncidencies dia0i = new PaginaIncidencies(0);
+        this.paginesBitacola.add(dia0i);
     }
 
     @Override
@@ -49,7 +56,7 @@ public class Bitacola implements InBitacola, Serializable {
         Iterator<PaginaBitacola> it = paginesBitacola.iterator();
         while(it.hasNext()) {
             PaginaBitacola p = it.next();
-            aux.append(p.toString()).append('\n');
+            aux.append(p.toString()).append("\n\n");
         }
         return aux.toString();
     }

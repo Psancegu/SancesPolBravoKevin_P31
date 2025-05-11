@@ -43,7 +43,8 @@ public class BombaRefrigerant implements InBombaRefrigerant, Serializable {
 
     @Override
     public void revisa(PaginaIncidencies p) throws CentralUBException {
-        VariableUniforme variableUniforme = new VariableUniforme(33L);
+        VariableUniforme variableUniforme = new VariableUniforme(System.currentTimeMillis());
+
         int valor = variableUniforme.seguentValor();
         if (valor < 25) {
             p.afegeixIncidencia("La bomba refrigerant amb ID:" + getId() + "ha quedat fora de servei.");
