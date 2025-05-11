@@ -9,4 +9,10 @@ public class Adaptador {
     public Adaptador() throws CentralUBException{
         this.dades = new Dades();
     }
+
+
+
+    public String finalitzaDia(float demandaPotencia) throws CentralUBException {
+        return dades.finalitzaDia(demandaPotencia).toString();
+    }
 }

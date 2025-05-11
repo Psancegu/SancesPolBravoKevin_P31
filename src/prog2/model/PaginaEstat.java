@@ -1,6 +1,8 @@
 package prog2.model;
 
-public class PaginaEstat extends PaginaBitacola{
+import java.io.Serializable;
+
+public class PaginaEstat extends PaginaBitacola implements Serializable {
     private float insBarres;
     private float outReactor;
     private float outSistemaRefri;
