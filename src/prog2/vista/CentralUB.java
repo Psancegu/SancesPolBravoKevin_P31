@@ -121,6 +121,12 @@ public class CentralUB {
                 opcio = menu.getOpcio(sc);
 
                 switch (opcio) {
+                    case GESTIO_BARRES:
+                        gestioBarres(sc);
+                        break;
+                    case GESTIO_REACTOR:
+                        gestioReactor(sc);
+                        break;
                     case GESTIO_REFRIGERACIO:
                         gestioRefrigeracio(sc);
                         break;
