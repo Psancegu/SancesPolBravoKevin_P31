@@ -2,6 +2,8 @@ package prog2.vista;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AppCentralUB extends JFrame {
     public AppCentralUB() {
@@ -11,16 +13,19 @@ public class AppCentralUB extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        // Crear barra de menú
         JMenuBar menuBar = new JMenuBar();
         JMenu menuFitxer = new JMenu("Fitxer");
         JMenuItem sortirItem = new JMenuItem("Sortir");
-        sortirItem.addActionListener(e -> System.exit(0));
+        sortirItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
         menuFitxer.add(sortirItem);
         menuBar.add(menuFitxer);
         setJMenuBar(menuBar);
 
-        // Panells per a la disposició BorderLayout
         JPanel northPanel = new JPanel();
         JPanel southPanel = new JPanel();
         JPanel eastPanel = new JPanel();
@@ -33,17 +38,16 @@ public class AppCentralUB extends JFrame {
         JButton boto3 = new JButton("Pàgina 3");
         JButton boto4 = new JButton("Pàgina 4");
 
-        boto1.addActionListener(e -> new PaginaNova("Pàgina 1"));
-        boto2.addActionListener(e -> new PaginaNova("Pàgina 2"));
-        boto3.addActionListener(e -> new PaginaNova("Pàgina 3"));
-        boto4.addActionListener(e -> new PaginaNova("Pàgina 4"));
+        boto1.addActionListener(new PageButtonListener("Pàgina 1"));
+        boto2.addActionListener(new PageButtonListener("Pàgina 2"));
+        boto3.addActionListener(new PageButtonListener("Pàgina 3"));
+        boto4.addActionListener(new PageButtonListener("Pàgina 4"));
 
         centerPanel.add(boto1);
         centerPanel.add(boto2);
         centerPanel.add(boto3);
         centerPanel.add(boto4);
 
-        // Assignar els panells a les regions
         add(northPanel, BorderLayout.NORTH);
         add(southPanel, BorderLayout.SOUTH);
         add(eastPanel, BorderLayout.EAST);
@@ -51,8 +55,20 @@ public class AppCentralUB extends JFrame {
         add(centerPanel, BorderLayout.CENTER);
     }
 
-    // Classe per crear finestres noves
-    private static class PaginaNova extends JFrame {
+    private class PageButtonListener implements ActionListener {
+        private String pageTitle;
+
+        public PageButtonListener(String pageTitle) {
+            this.pageTitle = pageTitle;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new PaginaNova(pageTitle);
+        }
+    }
+
+    private class PaginaNova extends JFrame {
         public PaginaNova(String titol) {
             super(titol);
             setSize(600, 400);
@@ -63,9 +79,12 @@ public class AppCentralUB extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            AppCentralUB gui = new AppCentralUB();
-            gui.setVisible(true);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                AppCentralUB gui = new AppCentralUB();
+                gui.setVisible(true);
+            }
         });
     }
 }
