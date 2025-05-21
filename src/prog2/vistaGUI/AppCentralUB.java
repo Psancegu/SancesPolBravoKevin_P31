@@ -20,6 +20,16 @@ public class AppCentralUB extends JFrame {
         });
     }
 
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                AppCentralUB gui = new AppCentralUB();
+                gui.setVisible(true);
+            }
+        });
+    }
+
     private void createUIComponents() {
         // TODO: place custom component creation code here
     }
