@@ -7,7 +7,7 @@
 package prog2.adaptador;
 
 import prog2.model.Dades;
-import prog2.vista.CentralUBException;
+import prog2.vista.*;
 
 import java.io.*;
 
@@ -190,5 +190,13 @@ public class Adaptador {
      */
     public String mostrarEstatRefrigeracio() {
         return this.dades.mostraSistemaRefrigeracio().toString();
+    }
+
+    public String getDiaGUI(){
+        return "Dia: " + this.dades.getDia();
+    }
+
+    public String getGuanys(){
+        return "Guanys: " + this.dades.getGuanysAcumulats();
     }
 }

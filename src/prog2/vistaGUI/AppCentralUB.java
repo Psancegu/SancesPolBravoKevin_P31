@@ -1,7 +1,7 @@
 package prog2.vistaGUI;
 
 import prog2.adaptador.Adaptador;
-import prog2.vista.CentralUBException;
+import prog2.vista.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,14 +15,20 @@ public class AppCentralUB extends JFrame{
     private JButton btnGuardar;
     private JButton btnCarregar;
     private JButton btnFinalitzaDia;
+    private JLabel lblDia;
+    private JLabel lblDemanda;
+    private JLabel lblGuanys;
+    private VariableNormal variableNormal = new VariableNormal(1000,800,123);
+    private float demandaPotencia;
+    private Adaptador adaptador = new Adaptador();
 
     public AppCentralUB() throws CentralUBException {
-        Adaptador adaptador = new Adaptador();
         setTitle("AppCentralUB");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
         setContentPane(panelPrincipal);
         setLocationRelativeTo(null);
+        actualitzaGui(adaptador);
         btnGestioComponentsCentral.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -35,6 +41,17 @@ public class AppCentralUB extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 FrmVisualitzarInformacio visualitzar = new FrmVisualitzarInformacio(adaptador);
                 visualitzar.setVisible(true);
+            }
+        });
+        btnFinalitzaDia.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    finalitzaDia();
+                } catch (CentralUBException ex) {
+                    JOptionPane.showMessageDialog(null, "S'ha produit un error: " + ex.getMessage(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
@@ -50,5 +67,27 @@ public class AppCentralUB extends JFrame{
             }
             app.setVisible(true);
         });
+    }
+
+    public void actualitzaGui(Adaptador adaptador) throws CentralUBException {
+        lblDia.setText(adaptador.getDiaGUI());
+        lblDemanda.setText("Demanda: " + demandaPotencia + " Unitats de Potencia");
+        lblGuanys.setText("Guanys: " + adaptador.getGuanys() + "€");
+    }
+
+    private float generaDemandaPotencia(){
+        float valor = Math.round(variableNormal.seguentValor());
+        if (valor > 1800)
+            return 1800;
+        else if (valor < 250)
+            return 250;
+        else
+            return valor;
+    }
+
+    private void finalitzaDia() throws CentralUBException {
+        String info = adaptador.finalitzaDia(demandaPotencia);
+        actualitzaGui(adaptador);
+        demandaPotencia = generaDemandaPotencia();
     }
 }

@@ -335,5 +335,11 @@ public class Dades implements InDades, Serializable {
         bitacolaDia.afegeixPagina(paginaIncidencies);
         return bitacolaDia;
     }
+
+    /** Mètodes auxilirs per la GUI*/
+
+    public int getDia(){
+        return this.dia;
+    }
 }
 
