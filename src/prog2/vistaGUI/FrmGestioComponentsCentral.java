@@ -116,7 +116,7 @@ public class FrmGestioComponentsCentral extends JDialog {
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "S'ha produit un error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
-
+                dispose();
             }
         });
         activarTotesButton.addActionListener(new ActionListener() {

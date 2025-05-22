@@ -13,7 +13,6 @@ public class AppCentralUB extends JFrame{
     private JButton btnGestioComponentsCentral;
     private JButton btnVisualitzarInformacio;
     private JButton btnGuardar;
-    private JButton btnCarregar;
     private JButton btnFinalitzaDia;
     private JLabel lblDia;
     private JLabel lblDemanda;
@@ -48,6 +47,18 @@ public class AppCentralUB extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 try {
                     finalitzaDia();
+                } catch (CentralUBException ex) {
+                    JOptionPane.showMessageDialog(null, "S'ha produit un error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        btnGuardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                FrmGuardarArxiu arxiu = new FrmGuardarArxiu(adaptador);
+                arxiu.setVisible(true);
+                try {
+                    actualitzaGui(adaptador);
                 } catch (CentralUBException ex) {
                     JOptionPane.showMessageDialog(null, "S'ha produit un error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
