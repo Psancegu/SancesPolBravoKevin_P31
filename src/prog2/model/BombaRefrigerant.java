@@ -86,7 +86,9 @@ public class BombaRefrigerant implements InBombaRefrigerant, Serializable {
             foraServei = true;
             desactiva();
         } else {
-            activa();
+            if (!foraServei) {
+                activa();
+            }
         }
     }
 

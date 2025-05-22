@@ -86,6 +86,7 @@ public class Reactor implements InComponent, Serializable {
             if (temperatura > 1000.0F) {
                 desactiva();
                 p.afegeixIncidencia("El reactor està desactivat perquè supera la temperatura màxima");
+                throw new CentralUBException("El reactor està desactivat perquè supera la temperatura màxima");
             }
         }
     }

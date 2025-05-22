@@ -49,8 +49,7 @@ public class AppCentralUB extends JFrame{
                 try {
                     finalitzaDia();
                 } catch (CentralUBException ex) {
-                    JOptionPane.showMessageDialog(null, "S'ha produit un error: " + ex.getMessage(),
-                            "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "S'ha produit un error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -62,8 +61,7 @@ public class AppCentralUB extends JFrame{
             try {
                 app = new AppCentralUB();
             } catch (CentralUBException e) {
-                JOptionPane.showMessageDialog(null, "S'ha produit un error: " + e.getMessage(),
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "S'ha produit un error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
             app.setVisible(true);
         });
@@ -72,7 +70,7 @@ public class AppCentralUB extends JFrame{
     public void actualitzaGui(Adaptador adaptador) throws CentralUBException {
         lblDia.setText(adaptador.getDiaGUI());
         lblDemanda.setText("Demanda: " + demandaPotencia + " Unitats de Potencia");
-        lblGuanys.setText("Guanys: " + adaptador.getGuanys() + "€");
+        lblGuanys.setText("Guanys: " + this.adaptador.getGuanys() + "€");
     }
 
     private float generaDemandaPotencia(){

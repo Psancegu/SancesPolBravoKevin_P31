@@ -275,6 +275,8 @@ public class Dades implements InDades, Serializable {
                 this.turbina.getCostOperatiu() + this.generadorVapor.getCostOperatiu();
         float guanys = beneficis - penalitzacio - costOperatiu;
 
+        guanysAcumulats += guanys;
+
         return new PaginaEconomica(dia, demandaPotencia, calculaPotencia(), demandaSatisfeta, beneficis, penalitzacio, costOperatiu, guanys);
     }
 
@@ -340,6 +342,14 @@ public class Dades implements InDades, Serializable {
 
     public int getDia(){
         return this.dia;
+    }
+
+    public boolean getEstatReactor(){
+        return this.reactor.getActivat();
+    }
+
+    public boolean getBomba(int id){
+        return this.sistemaRefrigeracio.getBombaEstat(id);
     }
 }
 

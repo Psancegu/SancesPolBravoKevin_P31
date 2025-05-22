@@ -144,4 +144,15 @@ public class SistemaRefrigeracio implements InComponent, Serializable {
         }
         return retornar.toString();
     }
+
+    public boolean getBombaEstat(int id) {
+        Iterator<BombaRefrigerant> it = bombaRefrigerants.iterator();
+        while (it.hasNext()) {
+            BombaRefrigerant b = it.next();
+            if (b.getId() == id) {
+                return b.getActivat();
+            }
+        }
+        return false;
+    }
 }

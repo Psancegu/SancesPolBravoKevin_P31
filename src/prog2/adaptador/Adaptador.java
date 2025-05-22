@@ -199,4 +199,12 @@ public class Adaptador {
     public String getGuanys(){
         return "Guanys: " + this.dades.getGuanysAcumulats();
     }
+
+    public boolean getEstatReactorGUI(){
+        return this.dades.getEstatReactor();
+    }
+
+    public boolean getBombaGUI(int id){
+        return this.dades.getBomba(id);
+    }
 }
