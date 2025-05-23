@@ -98,5 +98,7 @@ public class AppCentralUB extends JFrame{
         String info = adaptador.finalitzaDia(demandaPotencia);
         actualitzaGui(adaptador);
         demandaPotencia = generaDemandaPotencia();
+
+        JOptionPane.showMessageDialog(null, info, "Dia Finalitzat", JOptionPane.INFORMATION_MESSAGE);
     }
 }
