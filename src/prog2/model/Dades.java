@@ -283,8 +283,10 @@ public class Dades implements InDades, Serializable {
     /**
      * Estableix la nova temperatura del reactor després de la refrigeració.
      */
-    private void refrigeraReactor() {
-        this.reactor.setTemperatura(Math.max(25, this.reactor.getTemperatura() - this.sistemaRefrigeracio.calculaOutput(this.reactor.calculaOutput(insercioBarres))));
+    private void refrigeraReactor(float outputReactor, float outputRefrigeracio) {
+        float novaTemperatura = reactor.getTemperatura() + outputReactor - outputRefrigeracio;
+        if (novaTemperatura < 25.0F) novaTemperatura = 25.0F;
+        reactor.setTemperatura(novaTemperatura);
     }
 
     /**
@@ -316,7 +318,9 @@ public class Dades implements InDades, Serializable {
         PaginaEstat paginaEstat = mostraEstat();
 
         // Refrigera el reactor
-        refrigeraReactor();
+        float outputReactor = reactor.calculaOutput(insercioBarres);
+        float outputRefrigeracio = sistemaRefrigeracio.calculaOutput(outputReactor);
+        refrigeraReactor(outputReactor, outputRefrigeracio);
 
         // Revisa els components de la central i registra incidències
         PaginaIncidencies paginaIncidencies = new PaginaIncidencies(dia);

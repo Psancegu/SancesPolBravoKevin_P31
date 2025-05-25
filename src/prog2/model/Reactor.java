@@ -47,7 +47,7 @@ public class Reactor implements InComponent, Serializable {
      */
     @Override
     public void activa() throws CentralUBException {
-        if (temperatura > 1000.0F) {
+        if (temperatura >= 1000.0F) {
             throw new CentralUBException("No es pot activar: Temperatura > 1000.0");
         } else {
             active = true;
@@ -80,14 +80,13 @@ public class Reactor implements InComponent, Serializable {
      */
     @Override
     public void revisa(PaginaIncidencies p) throws CentralUBException {
-        if (!active) {
-            p.afegeixIncidencia("El reactor està desactivat");
-        } else {
-            if (temperatura > 1000.0F) {
+        if (temperatura >= 1000.0F && active) {
                 desactiva();
                 p.afegeixIncidencia("El reactor està desactivat perquè supera la temperatura màxima");
                 throw new CentralUBException("El reactor està desactivat perquè supera la temperatura màxima");
-            }
+        }
+        else{
+            return;
         }
     }
 
@@ -111,14 +110,14 @@ public class Reactor implements InComponent, Serializable {
      * @param input Percentatge d'inserció de barres.
      * @return Valor de sortida de potència del reactor.
      */
-    @Override
     public float calculaOutput(float input) {
         if (!active) {
-            return temperatura;
+            return 0.0F;
         } else {
-            return temperatura + (100.0F - input) * 10;
+            return (100.0F - input) * 10.0F;
         }
     }
+
 
     /**
      * Retorna una representació en text de l'estat del reactor.
